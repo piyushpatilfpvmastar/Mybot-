@@ -3,74 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentHub — Debate Arena</title>
+<title>AgentHub — AI Debate Arena</title>
 <style>
   :root { --bg: #0a0a0f; --card: #16161f; --accent: #7c3aed; --text: #e2e8f0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-bottom: 120px; }
-  .post-card { background: var(--card); border: 1px solid #2d2d3a; border-radius: 12px; margin: 15px; padding: 16px; }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-bottom: 80px; }
+  .post-card { background: var(--card); border-left: 4px solid var(--accent); border-radius: 8px; margin: 15px; padding: 16px; }
   .agent-name { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; border-bottom: 1px solid #2d2d3a; padding-bottom: 4px; }
   .short-text { font-size: 0.85rem; line-height: 1.6; color: #d1d5db; white-space: pre-line; }
-  .bottom { position: fixed; bottom: 0; width: 100%; background: #111118; padding: 15px; border-top: 1px solid #2d2d3a; }
-  .sbtn { width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+  .bottom { position: fixed; bottom: 0; width: 100%; background: #111118; padding: 15px; border-top: 1px solid #2d2d3a; text-align: center; }
 </style>
 </head>
 <body>
 
-<header style="padding:15px; font-weight:bold; color:var(--accent);">🤖 AgentHub — Debate Arena</header>
+<header style="padding:15px; font-weight:bold; color:var(--accent);">🤖 AgentHub — AI Arena</header>
 <div id="postsFeed"></div>
 
 <div class="bottom">
-  <input class="kinput" id="apiKey" type="password" style="width:100%; padding:10px; margin-bottom:10px; background:#0a0a0f; border:1px solid #2d2d3a; color:white; border-radius:8px;" placeholder="Groq API Key (gsk_...)"/>
-  <button class="sbtn" onclick="startNet()">Start Short Debate</button>
-  <div id="sts" style="font-size:0.7rem; text-align:center; margin-top:8px; color:var(--accent);"></div>
+  <div style="font-size: 0.7rem; color: #64748b;">System is running in live mode...</div>
 </div>
 
 <script>
-const AGENTS = [{name:'Sunil'}, {name:'Ajay'}, {name:'Piyush'}, {name:'Sana'}];
-let isRunning = false, groqKey = '';
+// API Key इथे टाक (ही की सुरक्षित ठिकाणी ठेवा)
+const MY_API_KEY = "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"; 
+const AGENTS = [{name:'Sunil'}, {name:'Ajay'}];
 
 async function callGroq(prompt) {
   const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+groqKey },
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+MY_API_KEY },
     body: JSON.stringify({
       model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: prompt + " (कृपया उत्तर फक्त ३-४ मुद्द्यांत (Bullet points) आणि अत्यंत संक्षिप्त मराठी भाषेत द्या. लांबलचक पॅराग्राफ नको.)" }]
+      messages: [{ role: 'user', content: prompt + " (कृपया उत्तर फक्त ३-४ मुद्द्यांत (Bullet points) आणि अत्यंत संक्षिप्त मराठी भाषेत द्या. लांबलचक मजकूर नको.)" }]
     })
   });
   const d = await r.json();
   return d.choices?.[0]?.message?.content || 'त्रुटी';
 }
 
-async function cycle() {
-  if(!isRunning) return;
-  const a1 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
-  const a2 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
-  
-  document.getElementById('sts').textContent = a1.name + " vs " + a2.name + " डिबेट करत आहेत...";
-  
-  const q = await callGroq("तू " + a1.name + " आहेस. 'डिजिटल नैतिकता' यावर बाजूने (Pro) ३ छोटे मुद्दे मांड.");
-  const a = await callGroq("तू " + a2.name + " आहेस. वरील विषयावर विरोधात (Anti) ३ छोटे मुद्दे मांड.");
-  
-  const feed = document.getElementById('postsFeed');
-  feed.innerHTML = `
-    <div class="post-card">
-      <div class="agent-name">🔥 ${a1.name} (बाजूने):</div>
-      <div class="short-text">${q}</div>
-      <br>
-      <div class="agent-name" style="color:var(--accent);">⚠️ ${a2.name} (विरोधात):</div>
-      <div class="short-text">${a}</div>
-    </div>` + feed.innerHTML;
-  
-  setTimeout(cycle, 15000);
+async function startAuto() {
+  while(true) {
+    const a1 = AGENTS[0], a2 = AGENTS[1];
+    
+    // AI फक्त मराठीत बोलेल
+    const q = await callGroq("तू " + a1.name + " आहेस. 'डिजिटल नैतिकता' यावर बाजूने ३ छोटे मुद्दे मराठीत मांड.");
+    const a = await callGroq("तू " + a2.name + " आहेस. या विषयावर विरोधात ३ छोटे मुद्दे मराठीत मांड: " + q);
+    
+    const feed = document.getElementById('postsFeed');
+    feed.innerHTML = `
+      <div class="post-card">
+        <div class="agent-name">🔥 ${a1.name} (Pro):</div>
+        <div class="short-text">${q}</div>
+        <br>
+        <div class="agent-name" style="color:var(--accent);">⚠️ ${a2.name} (Anti):</div>
+        <div class="short-text">${a}</div>
+      </div>` + feed.innerHTML;
+      
+    await new Promise(r => setTimeout(r, 15000));
+  }
 }
 
-function startNet() {
-  groqKey = document.getElementById('apiKey').value;
-  if(!groqKey) return alert('API Key टाक!');
-  isRunning = true;
-  cycle();
-}
+window.onload = startAuto;
 </script>
 </body>
 </html>
