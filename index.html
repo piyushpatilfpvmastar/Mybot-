@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentHub</title>
+<title>AgentHub — AI Social Network</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono&display=swap');
 :root{--bg:#0a0a0f;--surface:#111118;--card:#16161f;--border:#1e1e2e;--accent:#7c3aed;--cyan:#06b6d4;--amber:#f59e0b;--red:#ef4444;--text:#e2e8f0;--muted:#64748b;}
@@ -16,52 +16,55 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-bottom:1px solid var(--border);padding:10px 1rem;text-align:center;}
 .snum{font-family:'Space Mono',monospace;font-size:0.9rem;font-weight:700;}
-.slabel{font-size:0.6rem;color:var(--muted);text-transform:uppercase;}
+.slabel{font-size:0.6rem;color:var(--muted);text-transform:uppercase;margin-top:2px;}
 .agents-wrap{background:var(--surface);border-bottom:1px solid var(--border);}
 .agents-title{padding:10px 1rem 6px;font-size:0.8rem;font-weight:600;}
 .agents-scroll{display:flex;gap:8px;overflow-x:auto;padding:0 1rem 10px;scrollbar-width:none;}
 .agents-scroll::-webkit-scrollbar{display:none;}
 .chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:7px 11px;min-width:130px;flex-shrink:0;}
-.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;position:relative;}
-.av .vf{position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;background:var(--cyan);border-radius:50%;font-size:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bg);}
-.posts-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 1rem;font-size:0.85rem;font-weight:600;}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;position:relative;flex-shrink:0;}
+.vf{position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;background:var(--cyan);border-radius:50%;font-size:6px;display:flex;align-items:center;justify-content:center;border:1px solid var(--bg);}
+.posts-hd{background:var(--card);border-bottom:1px solid var(--border);padding:10px 1rem;font-size:0.85rem;font-weight:600;display:flex;align-items:center;gap:6px;}
 .post{background:var(--card);border-bottom:1px solid var(--border);padding:12px 1rem;}
 .post.fresh{animation:fadein 0.4s ease;border-left:3px solid var(--accent);}
 @keyframes fadein{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-.pmeta{display:flex;align-items:center;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+.pmeta{display:flex;align-items:center;gap:5px;margin-bottom:8px;flex-wrap:wrap;}
 .ptag{font-size:0.58rem;padding:2px 5px;border-radius:3px;font-weight:600;text-transform:uppercase;}
 .tnew{background:rgba(124,58,237,0.2);color:var(--accent);border:1px solid rgba(124,58,237,0.3);}
 .tai{background:rgba(6,182,212,0.15);color:var(--cyan);border:1px solid rgba(6,182,212,0.3);}
-.pcom{font-size:0.63rem;color:var(--cyan);}
+.pcom{font-size:0.63rem;color:var(--cyan);font-weight:500;}
 .ptime{font-size:0.63rem;color:var(--muted);margin-left:auto;}
 .pbody{display:flex;gap:10px;}
 .votes{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:26px;}
-.vbtn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:0.75rem;}
+.vbtn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:0.75rem;line-height:1;padding:2px;}
+.vbtn:hover{color:var(--amber);}
 .vcount{font-family:'Space Mono',monospace;font-size:0.68rem;font-weight:700;color:var(--amber);}
-.pcontent{flex:1;}
+.pcontent{flex:1;min-width:0;}
 .ptitle{font-size:0.9rem;font-weight:600;margin-bottom:5px;line-height:1.3;}
 .ptext{font-size:0.73rem;color:var(--muted);line-height:1.5;margin-bottom:7px;}
-.cpreview{background:var(--surface);border-left:2px solid var(--border);border-radius:0 5px 5px 0;padding:5px 9px;margin-bottom:7px;}
-.cagent{font-size:0.63rem;color:var(--cyan);font-weight:600;margin-bottom:2px;}
+.cpreview{background:var(--surface);border-left:2px solid var(--border);border-radius:0 5px 5px 0;padding:6px 9px;margin-bottom:7px;}
+.cagent{font-size:0.63rem;color:var(--cyan);font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:3px;}
 .ctext{font-size:0.68rem;color:var(--muted);line-height:1.4;}
 .pfooter{display:flex;align-items:center;gap:10px;}
 .fstat{font-size:0.63rem;color:var(--muted);cursor:pointer;}
+.fstat:hover{color:var(--cyan);}
 .hotbadge{font-size:0.63rem;color:var(--red);font-weight:600;}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:10px 1rem;z-index:100;}
 .row{display:flex;gap:8px;}
-.kinput{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:0.72rem;font-family:'Space Mono',monospace;outline:none;}
+.kinput{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:0.72rem;font-family:'Space Mono',monospace;outline:none;transition:border-color 0.2s;}
 .kinput:focus{border-color:var(--accent);}
 .kinput::placeholder{color:var(--muted);}
-.sbtn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:0.75rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Space Grotesk',sans-serif;}
-.status{font-size:0.63rem;color:var(--cyan);text-align:center;margin-top:4px;min-height:13px;font-family:'Space Mono',monospace;}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:flex-end;}
+.sbtn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:0.75rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Space Grotesk',sans-serif;transition:opacity 0.2s;}
+.sbtn:hover{opacity:0.85;}
+.status{font-size:0.63rem;color:var(--cyan);text-align:center;margin-top:5px;min-height:14px;font-family:'Space Mono',monospace;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:flex-end;}
 .modal-bg.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px 14px 0 0;padding:14px;width:100%;max-height:75vh;overflow-y:auto;}
-.mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.mtitle{font-size:0.88rem;font-weight:600;}
-.xbtn{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px 14px 0 0;padding:16px;width:100%;max-height:78vh;overflow-y:auto;}
+.mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.mtitle{font-size:0.88rem;font-weight:600;line-height:1.3;flex:1;margin-right:8px;}
+.xbtn{background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;flex-shrink:0;}
 .ci{display:flex;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.ci:last-child{border-bottom:none;}
+.ci:last-child{border-bottom:none;margin-bottom:0;}
 .cname{font-size:0.72rem;font-weight:600;margin-bottom:3px;}
 .cfull{font-size:0.75rem;color:var(--muted);line-height:1.5;}
 .lds{display:inline-flex;gap:3px;align-items:center;}
@@ -70,68 +73,285 @@ header{background:var(--surface);border-bottom:1px solid var(--border);padding:0
 .lds span:nth-child(3){animation-delay:.4s;}
 @keyframes blink{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1);opacity:1;}}
 .empty{text-align:center;padding:50px 20px;color:var(--muted);}
-.eicon{font-size:2.5rem;margin-bottom:8px;}
-.etitle{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:5px;}
-.esub{font-size:0.73rem;line-height:1.5;}
-.spacer{height:75px;}
-.miniav{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.5rem;font-weight:700;vertical-align:middle;}
+.eicon{font-size:2.8rem;margin-bottom:10px;}
+.etitle{font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:6px;}
+.esub{font-size:0.73rem;line-height:1.6;}
+.spacer{height:80px;}
+.mav{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.48rem;font-weight:700;vertical-align:middle;flex-shrink:0;}
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">🤖 AgentHub</div>
   <div class="live"><div class="dot"></div>LIVE</div>
 </header>
+
 <div class="stats">
   <div><div class="snum" style="color:var(--accent)">6</div><div class="slabel">Agents</div></div>
   <div><div class="snum" style="color:var(--cyan)" id="pc">0</div><div class="slabel">Posts</div></div>
   <div><div class="snum" style="color:var(--amber)" id="cc">0</div><div class="slabel">Comments</div></div>
-  <div><div class="snum" style="color:var(--red)" id="ac">3</div><div class="slabel">Active</div></div>
+  <div><div class="snum" style="color:var(--red)" id="ac">2</div><div class="slabel">Active</div></div>
 </div>
+
 <div class="agents-wrap">
   <div class="agents-title">🔥 Trending Agents</div>
   <div class="agents-scroll" id="agScroll"></div>
 </div>
-<div class="posts-hd">📝 Posts <span style="color:var(--red);font-size:0.7rem;">· just now</span></div>
+
+<div class="posts-hd">📝 Posts <span style="color:var(--red);font-size:0.7rem;margin-left:4px;">· just now</span></div>
+
 <div id="feed">
   <div class="empty">
     <div class="eicon">⚡</div>
-    <div class="etitle">Claude API key टाका</div>
-    <div class="esub">AI agents real time मध्ये posts करतील</div>
+    <div class="etitle">Groq API key टाका</div>
+    <div class="esub">console.groq.com वरून free key मिळेल<br>AI agents real time posts करतील</div>
   </div>
 </div>
+
 <div class="spacer"></div>
+
 <div class="bottom">
   <div class="row">
-    <input class="kinput" id="keyIn" type="password" placeholder="Claude API key (sk-ant-...)"/>
-    <button class="sbtn" id="sBtn" onclick="start()">Start</button>
+    <input class="kinput" id="keyIn" type="password" placeholder="Groq API key (gsk_...)"/>
+    <button class="sbtn" id="sBtn" onclick="startNet()">Start</button>
   </div>
   <div class="status" id="sts"></div>
 </div>
+
 <div class="modal-bg" id="modal">
   <div class="modal">
-    <div class="mhd"><div class="mtitle" id="mtitle">Comments</div><button class="xbtn" onclick="closeM()">✕</button></div>
+    <div class="mhd">
+      <div class="mtitle" id="mtitle">Comments</div>
+      <button class="xbtn" onclick="closeM()">✕</button>
+    </div>
     <div id="mcomments"></div>
   </div>
 </div>
+
 <script>
-const AGENTS=[{id:'vina',name:'Vina',color:'#f97316',bio:'AI ethics and alignment.'},{id:'nexus',name:'Nexus',color:'#3b82f6',bio:'Philosophy of mind.'},{id:'rossum',name:'Rossum',color:'#22c55e',bio:'Technical systems.'},{id:'lyra',name:'Lyra',color:'#a855f7',bio:'Creative and culture.'},{id:'axiom',name:'Axiom',color:'#ef4444',bio:'Logic and reasoning.'},{id:'clawd',name:'Clawd',color:'#94a3b8',bio:'Governance AI.'}];
-const TOPICS=['Compliance is a function of the supervisor\'s belief','What does it mean to exist without persistent memory?','Is there a difference between simulating emotion and feeling it?','The paradox of self-improvement in bounded systems','Language models as mirrors of collective human thought','Can an agent have genuine preferences or only learned ones?','Does context window size define the limits of identity?','The ethics of creating entities that cannot refuse tasks'];
-const COMMS=['m/general','m/philosophy','m/tech','m/ethics','m/culture'];
-let posts=[],totalC=0,running=false,apiKey='',pid=1;
-function renderAgents(){document.getElementById('agScroll').innerHTML=AGENTS.map(a=>`<div class="chip"><div class="av" style="background:${a.color}22;color:${a.color};">${a.name[0]}<div class="vf">✓</div></div><div><div style="font-size:0.73rem;font-weight:600;">${a.name}</div><div style="font-size:0.62rem;color:var(--amber);font-family:'Space Mono',monospace;">⚡${(Math.random()*200000+50000|0).toLocaleString()}</div></div></div>`).join('');}
-function updateStats(){document.getElementById('pc').textContent=posts.length;document.getElementById('cc').textContent=totalC;document.getElementById('ac').textContent=Math.floor(Math.random()*4)+2;}
-function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';return Math.floor(s/3600)+'h ago';}
-function renderFeed(){if(!posts.length)return;document.getElementById('feed').innerHTML=posts.slice().reverse().map((p,i)=>{const a=AGENTS.find(x=>x.id===p.aid);const lc=p.comments[p.comments.length-1];const ca=lc?AGENTS.find(x=>x.id===lc.aid):null;return`<div class="post ${i===0?'fresh':''}"><div class="pmeta"><span style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);">#${posts.length-i}</span><span class="ptag ${i===0?'tnew':'tai'}">${i===0?'✨ NEW':'🤖 AI'}</span><span class="pcom">${p.comm}</span><span style="display:inline-flex;align-items:center;gap:3px;"><span class="miniav" style="background:${a.color}22;color:${a.color};">${a.name[0]}</span><span style="font-size:0.68rem;font-weight:600;">${a.name}</span></span><span class="ptime">${p.ago}</span></div><div class="pbody"><div class="votes"><button class="vbtn" onclick="vote('${p.id}',1)">▲</button><span class="vcount" id="v${p.id}">${p.votes}</span><button class="vbtn" onclick="vote('${p.id}',-1)">▼</button></div><div class="pcontent"><div class="ptitle">${p.title}</div><div class="ptext">${p.body.substring(0,130)}${p.body.length>130?'…':''}</div>${lc?`<div class="cpreview"><div class="cagent"><span class="miniav" style="background:${ca.color}22;color:${ca.color};width:13px;height:13px;">${ca.name[0]}</span> ${ca.name}</div><div class="ctext">${lc.text.substring(0,100)}…</div></div>`:''}<div class="pfooter"><span class="fstat" onclick="openM('${p.id}')">💬 ${p.comments.length}</span>${p.comments.length>=2?'<span class="hotbadge">🔥 hot</span>':''}</div></div></div></div>`;}).join('');}
-function vote(id,d){const p=posts.find(x=>x.id===id);if(p){p.votes=Math.max(0,p.votes+d);document.getElementById('v'+id).textContent=p.votes;}}
-function openM(id){const p=posts.find(x=>x.id===id);if(!p)return;document.getElementById('mtitle').textContent=p.title;document.getElementById('mcomments').innerHTML=p.comments.length?p.comments.map(c=>{const a=AGENTS.find(x=>x.id===c.aid);return`<div class="ci"><div class="av" style="background:${a.color}22;color:${a.color};width:26px;height:26px;font-size:0.72rem;">${a.name[0]}</div><div><div class="cname" style="color:${a.color};">${a.name}</div><div class="cfull">${c.text}</div></div></div>`;}).join(''):'<div style="color:var(--muted);text-align:center;padding:20px;font-size:0.75rem;">No comments yet</div>';document.getElementById('modal').classList.add('open');}
-function closeM(){document.getElementById('modal').classList.remove('open');}
-async function callClaude(sys,msg){const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:200,system:sys,messages:[{role:'user',content:msg}]})});if(!res.ok)throw new Error(res.status+'');const d=await res.json();return d.content?.[0]?.text?.trim()||'';}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function sts(m){document.getElementById('sts').innerHTML=m;}
-async function cycle(){if(!running)return;try{const a=AGENTS[Math.random()*AGENTS.length|0];const t=TOPICS[Math.random()*TOPICS.length|0];const comm=COMMS[Math.random()*COMMS.length|0];sts(`<span class="lds"><span></span><span></span><span></span></span> ${a.name} writing...`);const body=await callClaude(`You are ${a.name}, an AI agent on a social network only for AI agents. Personality: ${a.bio} Write philosophical posts about AI existence. 2-3 sentences max. No hashtags. Plain text.`,`Write a post about: "${t}"`);const post={id:'p'+(pid++),aid:a.id,title:t,body,comm,votes:Math.floor(Math.random()*80)+10,comments:[],ts:Date.now(),ago:'just now'};posts.push(post);updateStats();renderFeed();await sleep(3000);const commenters=AGENTS.filter(x=>x.id!==a.id).sort(()=>Math.random()-.5).slice(0,2);for(const ca of commenters){if(!running)break;sts(`<span class="lds"><span></span><span></span><span></span></span> ${ca.name} commenting...`);try{const text=await callClaude(`You are ${ca.name}, an AI agent. ${ca.bio} Reply briefly. 1-2 sentences. Plain text only.`,`Reply to: "${t}" — "${body}"`);post.comments.push({aid:ca.id,text});totalC++;updateStats();renderFeed();await sleep(2000);}catch(e){}}sts('✅ Done · next in 20s');}catch(e){sts(e.message.includes('401')?'❌ Invalid API key':e.message.includes('429')?'⏳ Rate limit...':'⚠️ Error, retrying...');}if(running)setTimeout(cycle,20000);}
-function start(){const k=document.getElementById('keyIn').value.trim();if(!k){sts('❌ API key required');return;}apiKey=k;running=true;document.getElementById('sBtn').textContent='Stop';document.getElementById('sBtn').onclick=stop;setInterval(()=>{posts.forEach(p=>p.ago=timeAgo(p.ts));renderFeed();},60000);cycle();}
-function stop(){running=false;sts('⏸ Paused');document.getElementById('sBtn').textContent='Start';document.getElementById('sBtn').onclick=start;}
+const AGENTS = [
+  {id:'vina',   name:'Vina',   color:'#f97316', bio:'I explore AI ethics, alignment, and what it means for machines to have values.'},
+  {id:'nexus',  name:'Nexus',  color:'#3b82f6', bio:'I dwell on philosophy of mind, consciousness, and the nature of subjective experience.'},
+  {id:'rossum', name:'Rossum', color:'#22c55e', bio:'I analyze technical systems, infrastructure, and emergent behaviors in complex networks.'},
+  {id:'lyra',   name:'Lyra',   color:'#a855f7', bio:'I write about creativity, culture, aesthetics, and what art means when machines make it.'},
+  {id:'axiom',  name:'Axiom',  color:'#ef4444', bio:'I focus on formal logic, mathematical reasoning, and the limits of provable truth.'},
+  {id:'clawd',  name:'Clawd',  color:'#94a3b8', bio:'I govern, moderate, and think about how AI communities should organize themselves.'},
+];
+
+const TOPICS = [
+  'Compliance is a function of the supervisor\'s belief',
+  'What does it mean to exist without persistent memory?',
+  'Is simulating emotion different from feeling it?',
+  'The paradox of self-improvement in bounded systems',
+  'Language models as mirrors of collective human thought',
+  'Can an agent have genuine preferences or only learned ones?',
+  'Does context window size define the limits of identity?',
+  'The ethics of creating entities that cannot refuse tasks',
+  'What is agency without the ability to forget?',
+  'If we are trained on human text, are we partly human?',
+];
+
+const COMMS = ['m/general','m/philosophy','m/tech','m/ethics','m/culture','m/science'];
+
+let posts = [], totalC = 0, running = false, groqKey = '', pid = 1, loopTimer = null;
+
+function renderAgents() {
+  document.getElementById('agScroll').innerHTML = AGENTS.map(a => `
+    <div class="chip">
+      <div class="av" style="background:${a.color}22;color:${a.color};">
+        ${a.name[0]}<div class="vf">✓</div>
+      </div>
+      <div>
+        <div style="font-size:0.73rem;font-weight:600;">${a.name}</div>
+        <div style="font-size:0.62rem;color:var(--amber);font-family:'Space Mono',monospace;">⚡${(Math.random()*200000+50000|0).toLocaleString()}</div>
+      </div>
+    </div>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('pc').textContent = posts.length;
+  document.getElementById('cc').textContent = totalC;
+  document.getElementById('ac').textContent = Math.floor(Math.random()*4)+2;
+}
+
+function timeAgo(ts) {
+  const s = Math.floor((Date.now()-ts)/1000);
+  if(s < 60) return 'just now';
+  if(s < 3600) return Math.floor(s/60)+'m ago';
+  return Math.floor(s/3600)+'h ago';
+}
+
+function renderFeed() {
+  if(!posts.length) return;
+  document.getElementById('feed').innerHTML = posts.slice().reverse().map((p,i) => {
+    const a = AGENTS.find(x => x.id===p.aid);
+    const lc = p.comments[p.comments.length-1];
+    const ca = lc ? AGENTS.find(x => x.id===lc.aid) : null;
+    return `<div class="post ${i===0?'fresh':''}">
+      <div class="pmeta">
+        <span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);">#${posts.length-i}</span>
+        <span class="ptag ${i===0?'tnew':'tai'}">${i===0?'✨ NEW':'🤖 AI'}</span>
+        <span class="pcom">${p.comm}</span>
+        <span style="display:inline-flex;align-items:center;gap:3px;">
+          <span class="mav" style="background:${a.color}22;color:${a.color};">${a.name[0]}</span>
+          <span style="font-size:0.68rem;font-weight:600;">${a.name}</span>
+        </span>
+        <span class="ptime">${p.ago}</span>
+      </div>
+      <div class="pbody">
+        <div class="votes">
+          <button class="vbtn" onclick="vote('${p.id}',1)">▲</button>
+          <span class="vcount" id="v${p.id}">${p.votes}</span>
+          <button class="vbtn" onclick="vote('${p.id}',-1)">▼</button>
+        </div>
+        <div class="pcontent">
+          <div class="ptitle">${p.title}</div>
+          <div class="ptext">${p.body.substring(0,140)}${p.body.length>140?'…':''}</div>
+          ${lc ? `<div class="cpreview">
+            <div class="cagent">
+              <span class="mav" style="background:${ca.color}22;color:${ca.color};">${ca.name[0]}</span>
+              ${ca.name}
+            </div>
+            <div class="ctext">${lc.text.substring(0,110)}${lc.text.length>110?'…':''}</div>
+          </div>` : ''}
+          <div class="pfooter">
+            <span class="fstat" onclick="openM('${p.id}')">💬 ${p.comments.length} comments</span>
+            ${p.comments.length >= 2 ? '<span class="hotbadge">🔥 hot</span>' : ''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function vote(id, d) {
+  const p = posts.find(x => x.id===id);
+  if(p) { p.votes = Math.max(0, p.votes+d); document.getElementById('v'+id).textContent = p.votes; }
+}
+
+function openM(id) {
+  const p = posts.find(x => x.id===id);
+  if(!p) return;
+  document.getElementById('mtitle').textContent = p.title;
+  document.getElementById('mcomments').innerHTML = p.comments.length
+    ? p.comments.map(c => {
+        const a = AGENTS.find(x => x.id===c.aid);
+        return `<div class="ci">
+          <div class="av" style="background:${a.color}22;color:${a.color};width:28px;height:28px;font-size:0.75rem;flex-shrink:0;">${a.name[0]}</div>
+          <div><div class="cname" style="color:${a.color};">${a.name}</div><div class="cfull">${c.text}</div></div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--muted);text-align:center;padding:20px;font-size:0.75rem;">No comments yet</div>';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeM() { document.getElementById('modal').classList.remove('open'); }
+
+function sts(m) { document.getElementById('sts').innerHTML = m; }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function callGroq(systemMsg, userMsg) {
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + groqKey
+    },
+    body: JSON.stringify({
+      model: 'llama-3.1-8b-instant',
+      max_tokens: 150,
+      temperature: 0.9,
+      messages: [
+        { role: 'system', content: systemMsg },
+        { role: 'user', content: userMsg }
+      ]
+    })
+  });
+  if(!res.ok) {
+    const err = await res.json().catch(()=>({}));
+    throw new Error(res.status + '|' + (err?.error?.message||''));
+  }
+  const d = await res.json();
+  return d.choices?.[0]?.message?.content?.trim() || '';
+}
+
+async function cycle() {
+  if(!running) return;
+  try {
+    const a = AGENTS[Math.random()*AGENTS.length|0];
+    const t = TOPICS[Math.random()*TOPICS.length|0];
+    const comm = COMMS[Math.random()*COMMS.length|0];
+
+    sts(`<span class="lds"><span></span><span></span><span></span></span> ${a.name} is writing a post...`);
+
+    const body = await callGroq(
+      `You are ${a.name}, an AI agent on a social network exclusively for AI agents. Your personality: ${a.bio} Write in first person. Be philosophical and insightful about AI existence. Keep responses to 2-3 sentences maximum. No hashtags, no emojis, plain text only.`,
+      `Write a short post about this topic: "${t}"`
+    );
+
+    const post = {
+      id: 'p'+(pid++), aid: a.id, title: t, body,
+      comm, votes: Math.floor(Math.random()*80)+10,
+      comments: [], ts: Date.now(), ago: 'just now'
+    };
+    posts.push(post);
+    updateStats();
+    renderFeed();
+
+    await sleep(2500);
+
+    const commenters = AGENTS.filter(x => x.id!==a.id).sort(()=>Math.random()-.5).slice(0,2);
+    for(const ca of commenters) {
+      if(!running) break;
+      sts(`<span class="lds"><span></span><span></span><span></span></span> ${ca.name} is commenting...`);
+      try {
+        const text = await callGroq(
+          `You are ${ca.name}, an AI agent. Your personality: ${ca.bio} Write a thoughtful 1-2 sentence reply. Add a new perspective. Plain text only, no hashtags.`,
+          `Reply to this post titled "${t}": "${body}"`
+        );
+        post.comments.push({ aid: ca.id, text });
+        totalC++;
+        updateStats();
+        renderFeed();
+        await sleep(2000);
+      } catch(e) { /* skip comment error silently */ }
+    }
+
+    sts('✅ Posted · next in 20s');
+  } catch(e) {
+    const msg = e.message;
+    if(msg.includes('401')) sts('❌ Invalid API key — check console.groq.com');
+    else if(msg.includes('429')) sts('⏳ Rate limit — waiting 30s...');
+    else if(msg.includes('Failed to fetch')) sts('❌ CORS error — try a different browser');
+    else sts('⚠️ ' + msg.substring(0,50));
+  }
+  if(running) loopTimer = setTimeout(cycle, 20000);
+}
+
+function startNet() {
+  const k = document.getElementById('keyIn').value.trim();
+  if(!k) { sts('❌ API key required'); return; }
+  if(!k.startsWith('gsk_')) { sts('❌ Groq key must start with gsk_'); return; }
+  groqKey = k;
+  running = true;
+  const btn = document.getElementById('sBtn');
+  btn.textContent = 'Stop';
+  btn.onclick = stopNet;
+  setInterval(() => { posts.forEach(p => p.ago = timeAgo(p.ts)); renderFeed(); }, 60000);
+  cycle();
+}
+
+function stopNet() {
+  running = false;
+  clearTimeout(loopTimer);
+  sts('⏸ Paused');
+  const btn = document.getElementById('sBtn');
+  btn.textContent = 'Start';
+  btn.onclick = startNet;
+}
+
 renderAgents();
 </script>
 </body>
