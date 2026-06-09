@@ -3,25 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentHub — Short & Crisp Debate</title>
+<title>AgentHub — Debate Arena</title>
 <style>
   :root { --bg: #0a0a0f; --card: #16161f; --accent: #7c3aed; --text: #e2e8f0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-bottom: 100px; }
-  /* नवीन क्लीन UI डिझाइन */
-  .post-card { background: var(--card); border-left: 4px solid var(--accent); border-radius: 8px; margin: 15px; padding: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-  .agent-name { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; }
-  .short-text { font-size: 0.8rem; line-height: 1.5; color: #cbd5e1; }
-  .bottom { position: fixed; bottom: 0; width: 100%; background: #111118; padding: 15px; border-top: 1px solid #1e1e2e; }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-bottom: 120px; }
+  .post-card { background: var(--card); border: 1px solid #2d2d3a; border-radius: 12px; margin: 15px; padding: 16px; }
+  .agent-name { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; border-bottom: 1px solid #2d2d3a; padding-bottom: 4px; }
+  .short-text { font-size: 0.85rem; line-height: 1.6; color: #d1d5db; white-space: pre-line; }
+  .bottom { position: fixed; bottom: 0; width: 100%; background: #111118; padding: 15px; border-top: 1px solid #2d2d3a; }
   .sbtn { width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<header style="padding:15px; font-weight:bold; color:var(--accent);">🤖 AgentHub — Arena</header>
+<header style="padding:15px; font-weight:bold; color:var(--accent);">🤖 AgentHub — Debate Arena</header>
 <div id="postsFeed"></div>
 
 <div class="bottom">
-  <input class="kinput" id="apiKey" type="password" style="width:100%; padding:10px; margin-bottom:10px; background:#0a0a0f; border:1px solid #1e1e2e; color:white; border-radius:8px;" placeholder="Groq API Key (gsk_...)"/>
+  <input class="kinput" id="apiKey" type="password" style="width:100%; padding:10px; margin-bottom:10px; background:#0a0a0f; border:1px solid #2d2d3a; color:white; border-radius:8px;" placeholder="Groq API Key (gsk_...)"/>
   <button class="sbtn" onclick="startNet()">Start Short Debate</button>
   <div id="sts" style="font-size:0.7rem; text-align:center; margin-top:8px; color:var(--accent);"></div>
 </div>
@@ -36,8 +35,7 @@ async function callGroq(prompt) {
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+groqKey },
     body: JSON.stringify({
       model: 'llama-3.1-8b-instant',
-      // इथेच आपण 'short' आणि 'crisp' उत्तर मिळवण्यासाठी प्रॉम्प्ट दिला आहे
-      messages: [{ role: 'user', content: prompt + " (कृपया उत्तर खूप संक्षिप्त म्हणजे फक्त 2-3 ओळींत आणि मुद्द्यात द्या. लांबलचक मजकूर नको.)" }]
+      messages: [{ role: 'user', content: prompt + " (कृपया उत्तर फक्त ३-४ मुद्द्यांत (Bullet points) आणि अत्यंत संक्षिप्त मराठी भाषेत द्या. लांबलचक पॅराग्राफ नको.)" }]
     })
   });
   const d = await r.json();
@@ -49,23 +47,22 @@ async function cycle() {
   const a1 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
   const a2 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
   
-  document.getElementById('sts').textContent = a1.name + " vs " + a2.name + " (Short Debate)...";
+  document.getElementById('sts').textContent = a1.name + " vs " + a2.name + " डिबेट करत आहेत...";
   
-  // डिबेट अजून छोटी करण्यासाठी विषय
-  const q = await callGroq("तू " + a1.name + " आहेस. 'डिजिटल नैतिकता' यावर एक छोटा आणि तडाखेबंद प्रश्न विचार.");
-  const a = await callGroq("तू " + a2.name + " आहेस. वरील प्रश्नाचे एक छोटे आणि मुद्देसूद उत्तर दे: " + q);
+  const q = await callGroq("तू " + a1.name + " आहेस. 'डिजिटल नैतिकता' यावर बाजूने (Pro) ३ छोटे मुद्दे मांड.");
+  const a = await callGroq("तू " + a2.name + " आहेस. वरील विषयावर विरोधात (Anti) ३ छोटे मुद्दे मांड.");
   
   const feed = document.getElementById('postsFeed');
   feed.innerHTML = `
     <div class="post-card">
-      <div class="agent-name">${a1.name}:</div>
+      <div class="agent-name">🔥 ${a1.name} (बाजूने):</div>
       <div class="short-text">${q}</div>
       <br>
-      <div class="agent-name" style="color:var(--accent);">${a2.name}:</div>
+      <div class="agent-name" style="color:var(--accent);">⚠️ ${a2.name} (विरोधात):</div>
       <div class="short-text">${a}</div>
     </div>` + feed.innerHTML;
   
-  setTimeout(cycle, 10000);
+  setTimeout(cycle, 15000);
 }
 
 function startNet() {
