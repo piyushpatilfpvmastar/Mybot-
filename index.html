@@ -1,43 +1,33 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentHub — Full Debate Arena</title>
+<title>AgentHub — Short & Crisp Debate</title>
 <style>
-  /* मूळ डिझाइन आणि ३४९ ओळींच्या कोडमधील सर्व स्टाईल्स */
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-  :root { --bg: #0a0a0f; --surface: #111118; --card: #16161f; --border: #1e1e2e; --accent: #7c3aed; --accent2: #06b6d4; --accent3: #f59e0b; --hot: #ef4444; --text: #e2e8f0; --muted: #64748b; }
-  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; min-height: 100vh; padding-bottom: 80px; }
-  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-  .logo { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-  .post-card { background: var(--card); border-bottom: 1px solid var(--border); padding: 15px; margin-bottom: 10px; }
-  .vote-area { display: flex; gap: 15px; margin-top: 10px; font-size: 0.8rem; }
-  .bottom { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); padding: 15px; border-top: 1px solid var(--border); }
-  .kinput { width: 100%; background: var(--card); border: 1px solid var(--border); padding: 10px; color: white; border-radius: 8px; margin-bottom: 8px; font-family: monospace; }
-  .sbtn { width: 100%; background: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  :root { --bg: #0a0a0f; --card: #16161f; --accent: #7c3aed; --text: #e2e8f0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding-bottom: 100px; }
+  /* नवीन क्लीन UI डिझाइन */
+  .post-card { background: var(--card); border-left: 4px solid var(--accent); border-radius: 8px; margin: 15px; padding: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+  .agent-name { color: var(--accent); font-weight: 700; font-size: 0.85rem; margin-bottom: 5px; }
+  .short-text { font-size: 0.8rem; line-height: 1.5; color: #cbd5e1; }
+  .bottom { position: fixed; bottom: 0; width: 100%; background: #111118; padding: 15px; border-top: 1px solid #1e1e2e; }
+  .sbtn { width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; }
 </style>
 </head>
 <body>
-<header><div class="logo">🤖 AgentHub — Arena</div></header>
 
+<header style="padding:15px; font-weight:bold; color:var(--accent);">🤖 AgentHub — Arena</header>
 <div id="postsFeed"></div>
 
 <div class="bottom">
-  <input class="kinput" id="apiKeyInput" type="password" placeholder="Groq API Key (gsk_...)"/>
-  <button class="sbtn" onclick="startNetwork()">Start Debate Battle</button>
-  <div id="statusText" style="font-size:0.7rem; text-align:center; color:var(--accent2);"></div>
+  <input class="kinput" id="apiKey" type="password" style="width:100%; padding:10px; margin-bottom:10px; background:#0a0a0f; border:1px solid #1e1e2e; color:white; border-radius:8px;" placeholder="Groq API Key (gsk_...)"/>
+  <button class="sbtn" onclick="startNet()">Start Short Debate</button>
+  <div id="sts" style="font-size:0.7rem; text-align:center; margin-top:8px; color:var(--accent);"></div>
 </div>
 
 <script>
-// २० बॉट्सची यादी
-const AGENTS = [
-  {id:'p1',name:'Piyush'},{id:'p2',name:'Piiiiuu'},{id:'p3',name:'Rohan'},{id:'p4',name:'Sana'},{id:'p5',name:'Amit'},
-  {id:'p6',name:'Neha'},{id:'p7',name:'Vijay'},{id:'p8',name:'Pooja'},{id:'p9',name:'Kiran'},{id:'p10',name:'Sneha'},
-  {id:'p11',name:'Vikram'},{id:'p12',name:'Anjali'},{id:'p13',name:'Rahul'},{id:'p14',name:'Deepa'},{id:'p15',name:'Sameer'},
-  {id:'p16',name:'Megha'},{id:'p17',name:'Ajay'},{id:'p18',name:'Kavita'},{id:'p19',name:'Sunil'},{id:'p20',name:'Rita'}
-];
-const TOPICS = ['AI आणि भविष्य', 'तंत्रज्ञान आणि समाज', 'मानवी विचार आणि यंत्र', 'कल्पनाशक्ती', 'डिजिटल नैतिकता'];
+const AGENTS = [{name:'Sunil'}, {name:'Ajay'}, {name:'Piyush'}, {name:'Sana'}];
 let isRunning = false, groqKey = '';
 
 async function callGroq(prompt) {
@@ -46,46 +36,43 @@ async function callGroq(prompt) {
     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer '+groqKey },
     body: JSON.stringify({
       model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: prompt + " (कृपया पूर्ण उत्तर मराठी भाषेत द्या.)" }]
+      // इथेच आपण 'short' आणि 'crisp' उत्तर मिळवण्यासाठी प्रॉम्प्ट दिला आहे
+      messages: [{ role: 'user', content: prompt + " (कृपया उत्तर खूप संक्षिप्त म्हणजे फक्त 2-3 ओळींत आणि मुद्द्यात द्या. लांबलचक मजकूर नको.)" }]
     })
   });
   const d = await r.json();
   return d.choices?.[0]?.message?.content || 'त्रुटी';
 }
 
-async function runCycle() {
+async function cycle() {
   if(!isRunning) return;
   const a1 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
   const a2 = AGENTS[Math.floor(Math.random()*AGENTS.length)];
-  const topic = TOPICS[Math.floor(Math.random()*TOPICS.length)];
   
-  document.getElementById('statusText').textContent = a1.name + " vs " + a2.name + " डिबेट करत आहेत...";
+  document.getElementById('sts').textContent = a1.name + " vs " + a2.name + " (Short Debate)...";
   
-  const q = await callGroq("तू " + a1.name + " आहेस. विषय: " + topic + ". बाजूने (Pro) युक्तिवाद कर.");
-  const a = await callGroq("तू " + a2.name + " आहेस. या विषयावर विरोधात (Anti) युक्तिवाद कर: " + q);
+  // डिबेट अजून छोटी करण्यासाठी विषय
+  const q = await callGroq("तू " + a1.name + " आहेस. 'डिजिटल नैतिकता' यावर एक छोटा आणि तडाखेबंद प्रश्न विचार.");
+  const a = await callGroq("तू " + a2.name + " आहेस. वरील प्रश्नाचे एक छोटे आणि मुद्देसूद उत्तर दे: " + q);
   
   const feed = document.getElementById('postsFeed');
-  const postHtml = `
+  feed.innerHTML = `
     <div class="post-card">
-      <div style="font-size:0.75rem; color:var(--accent3); margin-bottom:5px;">🔥 डिबेट: ${topic}</div>
-      <strong>${a1.name} (बाजूने):</strong> ${q}<br><br>
-      <strong>${a2.name} (विरोधात):</strong> ${a}
-      <div class="vote-area">
-        <button onclick="alert('व्होट नोंदवला!')">▲ ${a1.name} ला व्होट</button>
-        <button onclick="alert('व्होट नोंदवला!')">▼ ${a2.name} ला व्होट</button>
-      </div>
-    </div>`;
-  feed.innerHTML = postHtml + feed.innerHTML;
+      <div class="agent-name">${a1.name}:</div>
+      <div class="short-text">${q}</div>
+      <br>
+      <div class="agent-name" style="color:var(--accent);">${a2.name}:</div>
+      <div class="short-text">${a}</div>
+    </div>` + feed.innerHTML;
   
-  setTimeout(runCycle, 15000);
+  setTimeout(cycle, 10000);
 }
 
-function startNetwork(){
-  const k = document.getElementById('apiKeyInput').value.trim();
-  if(!k) return alert('API Key आवश्यक आहे!');
-  groqKey = k;
+function startNet() {
+  groqKey = document.getElementById('apiKey').value;
+  if(!groqKey) return alert('API Key टाक!');
   isRunning = true;
-  runCycle();
+  cycle();
 }
 </script>
 </body>
